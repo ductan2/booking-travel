@@ -8,3 +8,5 @@ pydantic[email]==2.8.2
 passlib==1.7.4
 cloudinary==1.40.0
 python-multipart==0.0.9
+cloudinary==1.40.0
+python-multipart==0.0.9

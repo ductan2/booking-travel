@@ -102,22 +102,46 @@
   ],
   "Location": [
     {
-      "Id": 0,
-      "loc": "LA california"
+        "name": "Hà Nội",
+        "description": "Thủ đô của Việt Nam, nổi tiếng với phố cổ và hồ Hoàn Kiếm."
     },
     {
-      "Id": 1,
-      "loc": "NY manhattan"
+        "name": "Hồ Chí Minh",
+        "description": "Thành phố lớn nhất Việt Nam, trung tâm kinh tế của cả nước."
     },
     {
-      "Id": 2,
-      "loc": "Bali, Indonesia"
+        "name": "Đà Nẵng",
+        "description": "Thành phố biển ở miền Trung, nổi tiếng với cầu Rồng và bãi biển Mỹ Khê."
     },
     {
-      "Id": 3,
-      "loc": "Lombok,Indonesia"
+        "name": "Hội An, Quảng Nam",
+        "description": "Phố cổ được UNESCO công nhận di sản, nổi tiếng với đèn lồng và kiến trúc cổ."
+    },
+    {
+        "name": "Huế, Thừa Thiên Huế",
+        "description": "Cố đô của Việt Nam, nổi tiếng với Đại Nội và các lăng tẩm vua chúa."
+    },
+    {
+        "name": "Nha Trang, Khánh Hòa",
+        "description": "Thành phố biển nổi tiếng với bãi biển đẹp và các đảo xung quanh."
+    },
+    {
+        "name": "Đà Lạt, Lâm Đồng",
+        "description": "Thành phố cao nguyên với khí hậu mát mẻ, nổi tiếng với hoa và thác nước."
+    },
+    {
+        "name": "Sapa, Lào Cai",
+        "description": "Thị trấn vùng cao nổi tiếng với ruộng bậc thang và văn hóa dân tộc thiểu số."
+    },
+    {
+        "name": "Hạ Long, Quảng Ninh",
+        "description": "Nổi tiếng với vịnh Hạ Long, di sản thiên nhiên thế giới với hàng nghìn hòn đảo đá vôi."
+    },
+    {
+        "name": "Cần Thơ",
+        "description": "Thành phố lớn nhất đồng bằng sông Cửu Long, nổi tiếng với chợ nổi Cái Răng."
     }
-  ],
+],
   "Popular": [
     {
       "address": "Bali, Indonesia",
@@ -169,3 +193,25 @@
     }
   ]
 }
+
+
+
+{
+    "title": "Sapa hùng vĩ",
+    "address": "Sapa, Lào Cai",
+    "bed": 1,
+    "people": 2,
+    "dateTour": "2024-12-20",
+    "description": "Hành trình khám phá Sapa, chinh phục đỉnh Fansipan và trải nghiệm văn hóa các dân tộc vùng cao.",
+    "distance": "350km từ Hà Nội",
+    "duration": "4 ngày 3 đêm",
+    "price": 5500000,
+    "score": 4.8,
+    "timeTour": "05:30 - 19:00",
+    "tourGuideName": "Hoàng Văn E",
+    "tourGuidePhone": "0945678901",
+    "tourGuidePic": "https://example.com/guide5.jpg",
+    "category_id": 5,
+    "user_id": 1,
+    "location_id": 2
+  }
