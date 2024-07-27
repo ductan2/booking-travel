@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from sqlmodel import Session
 
 from app.database import get_session
@@ -11,13 +11,18 @@ router = APIRouter()
 
 
 @router.post("/", response_model=CategoryBase)
-async def create_category(category: CategoryCreate, db: Session = Depends(get_session)):
+async def create_category(
+        name: str,
+        description: str = None,
+        image: UploadFile = None
+        , db: Session = Depends(get_session)):
+    category = CategoryCreate(name=name, description=description, image=image)
     if await category_service.get_category_by_name(category.name, db):
         raise HTTPException(status_code=400, detail="Category already exists")
     return await category_service.create_category(category, db)
 
 
-@router.get("/",response_model=List[CategoryBase])
+@router.get("/", response_model=List[CategoryBase])
 async def read_categories(db: Session = Depends(get_session)):
     return await category_service.get_all_categories(db)
 
@@ -31,7 +36,12 @@ async def delete_category(category_id: int, db: Session = Depends(get_session)):
 
 
 @router.put("/{category_id}", response_model=CategoryBase)
-async def update_category(category_id: int, category: CategoryUpdate, db: Session = Depends(get_session)):
+async def update_category(category_id: int,
+                          name: Optional[str] = None,
+                          description: Optional[str] = None,
+                          image: Optional[UploadFile] = None
+                          , db: Session = Depends(get_session)):
+    category = CategoryUpdate(name=name, description=description, image=image)
     try:
         return await category_service.update_category(category_id, category, db)
     except HTTPException as e:

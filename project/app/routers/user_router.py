@@ -9,11 +9,6 @@ from app.services import user_service
 router = APIRouter()
 
 
-@router.get("/{user_id}")
-async def read_user(user_id: str):
-    return {"user_id": user_id}
-
-
 @router.post("/register", response_model=UserBase)
 async def register_user(user: UserCreate, db: Session = Depends(get_session)):
     if await user_service.get_user_by_email(user.email, db) or await user_service.get_user_by_username(user.username,
@@ -37,3 +32,8 @@ async def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_
         return updated_user
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
+
+
+@router.get("/me/{user_id}", response_model=UserBase)
+async def get_me(user_id: int, db: Session = Depends(get_session)):
+    return await user_service.get_user_by_id(user_id, db)

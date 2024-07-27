@@ -1,6 +1,5 @@
 from fastapi import HTTPException
 from sqlalchemy import select
-from sqlalchemy.exc import NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import User
@@ -47,7 +46,8 @@ async def update_user(user_id: int, user: UserUpdate, db: AsyncSession):
     db_user = await get_user_by_id(user_id, db)
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
-    if get_user_by_email(user.email, db) or get_user_by_username(user.username, db):
+    if (user.email is not None and get_user_by_email(user.email, db)
+            or user.username is not None and get_user_by_username(user.username, db)):
         raise HTTPException(status_code=400, detail="Username or Email already registered")
 
     user_data = user.dict(exclude_unset=True)
@@ -61,3 +61,5 @@ async def update_user(user_id: int, user: UserUpdate, db: AsyncSession):
     await db.commit()
     await db.refresh(db_user)
     return db_user
+
+
