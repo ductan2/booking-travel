@@ -16,7 +16,6 @@ class TicketCreate(BaseModel):
     price: confloat(gt=0) = Field(...)
     score: confloat(ge=0, le=5) = Field(...)
     timeTour: str = Field(...)
-    image: str = Field(..., max_length=2083)
     tourGuideName: str = Field(..., max_length=100)
     tourGuidePhone: str = Field(..., max_length=15)
     tourGuidePic: str = Field(..., max_length=2083)

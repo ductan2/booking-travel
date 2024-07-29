@@ -210,8 +210,26 @@
     "timeTour": "05:30 - 19:00",
     "tourGuideName": "Hoàng Văn E",
     "tourGuidePhone": "0945678901",
-    "tourGuidePic": "https://example.com/guide5.jpg",
     "category_id": 5,
     "user_id": 1,
     "location_id": 2
-  }
+  },
+{
+    "title": "Amazing Tour Experience",
+    "address": "123 Main St, Cityville, ST 12345",
+    "bed": 3,
+    "people": 10,
+    "dateTour": "2024-08-01",
+    "description": "A wonderful day exploring the historic sites of the city.",
+    "distance": "10 km",
+    "duration": "4 hours",
+    "price": 49.99,
+    "score": 4.5,
+    "timeTour": "09:00 AM",
+    "tourGuideName": "John Doe",
+    "tourGuidePhone": "+1234567890",
+    "tourGuidePic": "https://example.com/images/tour-guide.jpg",
+    "category_id": 2,
+    "user_id": 5,
+    "location_id": 7
+}

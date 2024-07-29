@@ -49,11 +49,10 @@ class TicketTravel(BaseModel, table=True):
     timeTour: str
     tourGuideName: str = Field(max_length=100)
     tourGuidePhone: str = Field(max_length=15)
-    tourGuidePic: str = Field(max_length=2083)
+    tourGuidePic: str = Field(max_length=2083, nullable=True)
     category_id: int = Field(foreign_key="category.id", index=True)
     user_id: int = Field(foreign_key="user.id", index=True)
     location_id: int = Field(foreign_key="location.id", index=True)
-    image: str = Field(max_length=2083, nullable=True)
 
     category: Category = Relationship(back_populates="tickets")
     user: User = Relationship(back_populates="tickets")

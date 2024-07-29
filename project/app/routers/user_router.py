@@ -34,9 +34,7 @@ async def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_
         raise HTTPException(status_code=e.status_code, detail=e.detail)
 
 
-@router.get("/me/{user_id}", response_model=UserBase)
-async def get_me(user_id: int, db: Session = Depends(get_session)):
-    user = await user_service.get_user_by_id(user_id, db)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return user
+
+
+
+

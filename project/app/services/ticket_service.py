@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
-from app.models import TicketTravel, Location, Category
+from app.models import TicketTravel, Location, Category, User
 from app.schemas.ticket_schema import TicketCreate, TicketUpdate
 from app.utils.cloudinary import upload_image
 
@@ -52,11 +52,9 @@ def ticket_to_dict(ticket: TicketTravel):
         "description": ticket.description,
         "distance": ticket.distance,
         "duration": ticket.duration,
-        "image": ticket.image,
         "price": ticket.price,
         "score": ticket.score,
         "timeTour": ticket.timeTour,
-        "image": ticket.image,
         "tourGuideName": ticket.tourGuideName,
         "tourGuidePhone": ticket.tourGuidePhone,
         "tourGuidePic": ticket.tourGuidePic,
@@ -83,6 +81,15 @@ async def update_ticket(ticket_id: int, ticket: TicketUpdate, db: AsyncSession):
     ticket_data = ticket.dict(exclude_unset=True)
     for key, value in ticket_data.items():
         setattr(db_ticket, key, value)
+    await db.commit()
+    await db.refresh(db_ticket)
+    return db_ticket
+
+
+async def update_ticket_image(ticket_id: int, image: UploadFile, db: AsyncSession):
+    db_ticket = await get_ticket_by_id(ticket_id, db)
+    image_url = await upload_image(image)
+    db_ticket.tourGuidePic = image_url
     await db.commit()
     await db.refresh(db_ticket)
     return db_ticket

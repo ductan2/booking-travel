@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Category
-from app.schemas.category_schema import CategoryCreate
+from app.schemas.category_schema import CategoryCreate,CategoryUpdate
 from app.utils.cloudinary import upload_image
 
 
@@ -33,15 +33,18 @@ async def create_category(category: CategoryCreate, db: AsyncSession):
     return db_category
 
 
-async def update_category(category_id: int, category: CategoryCreate, db: AsyncSession):
+async def update_category(category_id: int, category: CategoryUpdate, db: AsyncSession):
     db_category = await get_category_by_id(category_id, db)
+
     if not db_category:
         raise HTTPException(status_code=404, detail="Category not found")
     if category.name:
         db_category.name = category.name
     if category.description:
         db_category.description = category.description
-
+    if category.image:
+        url_image = await upload_image(category.image)
+        db_category.image = url_image
     await db.commit()
     await db.refresh(db_category)
     return db_category
