@@ -63,3 +63,12 @@ async def update_user(user_id: int, user: UserUpdate, db: AsyncSession):
     return db_user
 
 
+async def update_password(user_id: int,old_password: str, password: str, db: AsyncSession):
+    db_user = await get_user_by_id(user_id, db)
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    if not pwd_context.verify(old_password, db_user.password):
+        raise HTTPException(status_code=400, detail="Old password incorrect")
+    db_user.password = pwd_context.hash(password)
+    await db.commit()
+    return db_user

@@ -34,6 +34,12 @@ async def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_
         raise HTTPException(status_code=e.status_code, detail=e.detail)
 
 
+@router.put("/update/password/{user_id}")
+async def update_password(user_id: int, old_password: str,password: str, db: Session = Depends(get_session)):
+    try:
+        return await user_service.update_password(user_id,old_password ,password, db)
+    except HTTPException as e:
+        raise HTTPException(status_code=e.status_code, detail=e.detail)
 
 
 
