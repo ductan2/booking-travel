@@ -24,6 +24,14 @@ async def login_user(user: UserLogin, db: Session = Depends(get_session)):
         raise HTTPException(status_code=400, detail="Account or Password incorrect")
     return db_user
 
+@router.get("/get/{user_id}", response_model=UserBase)
+async def get_user(user_id: int, db: Session = Depends(get_session)):
+    try:
+        user = await user_service.get_user_by_id(user_id, db)
+        return user
+    except HTTPException as e:
+        raise HTTPException(status_code=e.status_code, detail=e.detail)
+
 
 @router.put("/update/{user_id}", response_model=UserBase)
 async def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_session)):
