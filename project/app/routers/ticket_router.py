@@ -41,22 +41,22 @@ async def get_all_tickets(
     return [ticket_service.ticket_to_dict(ticket) for ticket in tickets]
 
 
-@router.get("/{ticket_id}", response_model=TicketTravel)
+@router.get("/{ticket_id}")
 async def get_ticket_by_id(ticket_id: int, db: AsyncSession = Depends(get_session)):
     return await ticket_service.get_ticket_by_id(ticket_id, db)
 
 
-@router.put("/{ticket_id}", response_model=TicketTravel)
+@router.put("/{ticket_id}")
 async def update_ticket(ticket_id: int, ticket: TicketUpdate, db: AsyncSession = Depends(get_session)):
     return await ticket_service.update_ticket(ticket_id, ticket, db)
 
 
-@router.delete("/{ticket_id}", response_model=TicketTravel)
+@router.delete("/{ticket_id}")
 async def delete_ticket(ticket_id: int, db: AsyncSession = Depends(get_session)):
     return await ticket_service.delete_ticket(ticket_id, db)
 
 
-@router.get("/bookmark/{user_id}", response_model=List[TicketTravel])
+@router.get("/bookmark/{user_id}")
 async def get_bookmarked_tickets(user_id: int, db: AsyncSession = Depends(get_session)):
     return await ticket_service.get_bookmarked_tickets(user_id, db)
 

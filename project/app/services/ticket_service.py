@@ -11,7 +11,8 @@ from app.utils.cloudinary import upload_image
 
 
 async def get_ticket_by_id(ticket_id: int, db: AsyncSession):
-    ticket = await db.get(TicketTravel, ticket_id)
+    result = await db.execute(select(TicketTravel).filter(TicketTravel.id == ticket_id))
+    ticket = result.scalars().first()
     if not ticket:
         raise HTTPException(status_code=404, detail="Ticket not found")
     return ticket

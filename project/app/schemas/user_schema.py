@@ -42,3 +42,10 @@ class UserUpdate(BaseModel):
 
     class Config:
         orm_mode = True
+
+class UserPassword(BaseModel):
+    old_password: str
+    password: str
+
+    class Config:
+        orm_mode = True

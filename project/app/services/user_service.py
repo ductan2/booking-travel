@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import User
-from app.schemas.user_schema import UserCreate, UserUpdate, UserLogin
+from app.schemas.user_schema import UserCreate, UserUpdate, UserLogin , UserPassword
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -63,7 +63,7 @@ async def update_user(user_id: int, user: UserUpdate, db: AsyncSession):
     return db_user
 
 
-async def update_password(user_id: int,old_password: str, password: str, db: AsyncSession):
+async def update_password(user_id: int,updatePassword: UserPassword, db: AsyncSession):
     db_user = await get_user_by_id(user_id, db)
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -72,3 +72,4 @@ async def update_password(user_id: int,old_password: str, password: str, db: Asy
     db_user.password = pwd_context.hash(password)
     await db.commit()
     return db_user
+
