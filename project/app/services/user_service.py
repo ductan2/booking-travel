@@ -1,9 +1,8 @@
 from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from app.models import User
-from app.schemas.user_schema import UserCreate, UserUpdate, UserLogin , UserPassword
+from app.schemas.user_schema import UserCreate, UserUpdate, UserLogin, UserPassword
 from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -35,9 +34,7 @@ async def create_user(user: UserCreate, db: AsyncSession):
 
 async def login_user(user: UserLogin, db: AsyncSession):
     db_user = await get_user_by_email(user.account, db) or await get_user_by_username(user.account, db)
-    if not db_user:
-        return False
-    if not pwd_context.verify(user.password, db_user.password):
+    if not db_user or not pwd_context.verify(user.password, db_user.password):
         return False
     return db_user
 
@@ -46,8 +43,8 @@ async def update_user(user_id: int, user: UserUpdate, db: AsyncSession):
     db_user = await get_user_by_id(user_id, db)
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
-    if (user.email is not None and get_user_by_email(user.email, db)
-            or user.username is not None and get_user_by_username(user.username, db)):
+
+    if (user.email and await get_user_by_email(user.email, db)) or (user.username and await get_user_by_username(user.username, db)):
         raise HTTPException(status_code=400, detail="Username or Email already registered")
 
     user_data = user.dict(exclude_unset=True)
@@ -63,13 +60,12 @@ async def update_user(user_id: int, user: UserUpdate, db: AsyncSession):
     return db_user
 
 
-async def update_password(user_id: int,updatePassword: UserPassword, db: AsyncSession):
+async def update_password(user_id: int, updatePassword: UserPassword, db: AsyncSession):
     db_user = await get_user_by_id(user_id, db)
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
-    if not pwd_context.verify(old_password, db_user.password):
-        raise HTTPException(status_code=400, detail="Old password incorrect")
-    db_user.password = pwd_context.hash(password)
-    await db.commit()
-    return db_user
 
+    if not pwd_context.verify(updatePassword.old_password, db_user.password):
+        raise HTTPException(status_code=400, detail="Old password incorrect")
+
+    db_user.pa
