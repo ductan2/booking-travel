@@ -24,6 +24,11 @@ class UserCreate(BaseModel):
         orm_mode = True
 
 
+class UserUpdatePass(BaseModel):
+    old_password: str
+    password: str
+
+
 class UserLogin(BaseModel):
     account: str | EmailStr
     password: str
@@ -42,6 +47,7 @@ class UserUpdate(BaseModel):
 
     class Config:
         orm_mode = True
+
 
 class UserPassword(BaseModel):
     old_password: str
