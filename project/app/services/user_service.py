@@ -68,4 +68,7 @@ async def update_password(user_id: int, updatePassword: UserPassword, db: AsyncS
     if not pwd_context.verify(updatePassword.old_password, db_user.password):
         raise HTTPException(status_code=400, detail="Old password incorrect")
 
-    db_user.pa
+    db_user.password = pwd_context.hash(updatePassword.password)
+    await db.commit()
+    await db.refresh(db_user)
+    return db_user

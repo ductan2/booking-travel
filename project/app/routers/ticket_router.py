@@ -56,9 +56,9 @@ async def delete_ticket(ticket_id: int, db: AsyncSession = Depends(get_session))
     return await ticket_service.delete_ticket(ticket_id, db)
 
 
-@router.get("/bookmark/{user_id}")
-async def get_bookmarked_tickets(user_id: int, db: AsyncSession = Depends(get_session)):
-    return await ticket_service.get_bookmarked_tickets(user_id, db)
+# @router.get("/bookmark/{user_id}")
+# async def get_bookmarked_tickets(user_id: int, db: AsyncSession = Depends(get_session)):
+#     return await ticket_service.get_bookmarked_tickets(user_id, db)
 
 
 @router.patch("/image/{ticket_id}")
@@ -66,7 +66,7 @@ async def update_ticket_image(ticket_id: int, image: UploadFile = File(...), db:
     return await ticket_service.update_ticket_image(ticket_id,image , db)
 
 
-@router.post("/bookmark/{user_id}")
+@router.get("/bookmark/{user_id}")
 async def bookmark_ticket(user_id: int, db: AsyncSession = Depends(get_session)):
     return await bookmark_service.get_bookmark_tickets(user_id, db)
 

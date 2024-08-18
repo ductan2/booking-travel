@@ -4,7 +4,7 @@ from fastapi import HTTPException, UploadFile
 from sqlalchemy import select
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload , selectinload
 from app.models import TicketTravel, Location, Category, User
 from app.schemas.ticket_schema import TicketCreate, TicketUpdate
 from app.utils.cloudinary import upload_image
@@ -63,6 +63,14 @@ def ticket_to_dict(ticket: TicketTravel):
         "category_name": ticket.category.name if ticket.category else None
     }
     return ticket_dict
+
+
+async def get_bookmarked_tickets(user_id: int, db: AsyncSession):
+    result = await db.execute(select(User).options(selectinload(User.bookmarked_items)).filter(User.id == user_id))
+    user = result.scalars().first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user.bookmarked_items
 
 
 async def create_ticket(data: TicketCreate, db: AsyncSession):
