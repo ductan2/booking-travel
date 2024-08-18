@@ -74,3 +74,8 @@ async def bookmark_ticket(user_id: int, db: AsyncSession = Depends(get_session))
 @router.put("/bookmark/{user_id}")
 async def bookmark_ticket(user_id: int, ticket_id: int, db: AsyncSession = Depends(get_session)):
     return await bookmark_service.addBookmark(user_id, ticket_id, db)
+
+
+@router.put("/bookmark/check/{user_id}")
+async def bookmark_ticket(user_id: int, ticket_id: int, db: AsyncSession = Depends(get_session)):
+    return await bookmark_service.checkBookmark(user_id, ticket_id, db)

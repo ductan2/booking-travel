@@ -78,10 +78,23 @@ async def addBookmark(user_id: int, ticket_id: int, db: AsyncSession):
     if existing_bookmark is not None:
         await db.delete(existing_bookmark)
         await db.commit()
-        return None
+        return "Bookmark removed"
     else:
         bookmark = UserBookmarked(user_id=user_id, ticket_travel_id=ticket_id)
         db.add(bookmark)
         await db.commit()
         await db.refresh(bookmark)
-        return bookmark
+        return "Bookmark added"
+
+
+async def checkBookmark(user_id: int, ticket_id: int, db: AsyncSession):
+    bookmark_query = select(UserBookmarked).where(
+        (UserBookmarked.user_id == user_id) & (UserBookmarked.ticket_travel_id == ticket_id)
+    )
+    existing_bookmark = await db.execute(bookmark_query)
+    existing_bookmark = existing_bookmark.scalar_one_or_none()
+
+    if existing_bookmark is not None:
+        return True
+    else:
+        return False

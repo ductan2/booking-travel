@@ -49,8 +49,8 @@ async def update_category(category_id: int,
 
 
 @router.get("/{category_id}", response_model=CategoryBase)
-async def read_category(category_id: int):
+async def read_category(category_id: int, db: Session = Depends(get_session)):
     try:
-        return await category_service.get_category_by_id(category_id)
+        return await category_service.get_category_by_id(category_id,db)
     except HTTPException as e:
         raise HTTPException(status_code=e.status_code, detail=e.detail)
